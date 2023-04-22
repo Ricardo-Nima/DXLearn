@@ -1,2 +1,6 @@
-﻿  App.cpp
+﻿  Graphics.cpp
+F:\DX11 Learn\hw3d\hw3d\ChiliWin.h(5,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+F:\DX11 Learn\hw3d\hw3d\ChiliWin.h(48,1): warning C4005: 'STRICT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
   hw3d.vcxproj -> F:\DX11 Learn\hw3d\x64\Debug\hw3d.exe

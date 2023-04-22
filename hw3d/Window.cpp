@@ -68,6 +68,8 @@ Window::Window(int width, int height, const wchar_t* name)
 		throw CHWND_LAST_EXCEPT;
 	}
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
+
+	pGfx = make_unique<Graphics>(hWnd);
 }
 
 Window::~Window()
@@ -102,6 +104,11 @@ std::optional<int> Window::ProcessMessage() noexcept
 
 	// return empty optional when not quitting app
 	return {};
+}
+
+Graphics& Window::GetGfx()
+{
+	return *pGfx;
 }
 
 

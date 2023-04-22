@@ -5,6 +5,7 @@
 #include <memory>
 #include "Keyboard.h"
 #include "Mouse.h"
+#include "Graphics.h"
 
 
 class Window
@@ -52,6 +53,7 @@ public:
 
 	void SetTitle(const std::wstring& title);
 	static std::optional<int> ProcessMessage() noexcept;
+	Graphics& GetGfx();
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
@@ -63,6 +65,7 @@ private:
 	int width;
 	int height;
 	HWND hWnd;
+	std::unique_ptr<Graphics> pGfx;
 };
 
 #define CHWND_EXCEPT(hr) Window::HrException(__LINE__, __FILE__, hr)
