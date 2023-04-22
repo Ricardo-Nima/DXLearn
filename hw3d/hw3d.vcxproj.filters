@@ -16,6 +16,9 @@
     <Filter Include="Util">
       <UniqueIdentifier>{cc43139a-210c-4501-abb5-3a6f30922cde}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test Files">
+      <UniqueIdentifier>{44c490a5-fb05-40b4-ae18-2c4d58ba3776}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -38,6 +41,12 @@
     </ClCompile>
     <ClCompile Include="App.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChiliTimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AppTest.cpp">
+      <Filter>Test Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="App.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChiliTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,7 +16,7 @@ int App::Go()
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
-		MousePosTest();
+
 		DoFrame(1.0f);
 	}
 	if (gResult == -1)
@@ -28,20 +28,7 @@ int App::Go()
 void App::DoFrame(float dt)
 {
 	//execute at each frame
+	//MousePosTest();
+	TimerTest();
 }
-void App::MousePosTest()
-{
-	while (!wnd.mouse.IsEmpty())
-	{
-		const auto e = wnd.mouse.Read();
-		if (!e.has_value()) {
-			break;
-		}
-		const auto& eVal = e.value();
-		if (eVal.GetType() == Mouse::Event::Type::Move) {
-			std::wstringstream oss;
-			oss << L"Mouse Position: (" << eVal.GetPosX() << L", " << eVal.GetPosY() << L") ";
-			wnd.SetTitle(oss.str());
-		}
-	}
-}
+
