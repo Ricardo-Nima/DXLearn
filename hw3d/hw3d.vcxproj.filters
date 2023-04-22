@@ -19,6 +19,9 @@
     <Filter Include="Test Files">
       <UniqueIdentifier>{44c490a5-fb05-40b4-ae18-2c4d58ba3776}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Inner Classes">
+      <UniqueIdentifier>{90bbbf31-23b3-4eba-8544-32e14e3f3a80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -47,6 +50,9 @@
     </ClCompile>
     <ClCompile Include="AppTest.cpp">
       <Filter>Test Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowException.cpp">
+      <Filter>Inner Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

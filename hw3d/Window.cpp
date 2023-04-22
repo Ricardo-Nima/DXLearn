@@ -2,66 +2,7 @@
 #include <sstream>
 #include "StringConverter.h"
 
-// Window Exception Stuff
-std::wstring Window::Exception::TranslateErrorCode(HRESULT hr) noexcept
-{
-	wchar_t* pMsgBuf = nullptr;
-	// windows will allocate memory for err string and make our pointer point to it
-	const DWORD nMsgLen = FormatMessage(
-		FORMAT_MESSAGE_ALLOCATE_BUFFER |
-		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-		nullptr, hr, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-		reinterpret_cast<LPWSTR>(&pMsgBuf), 0, nullptr
-	);
-	// 0 string length returned indicates a failure
-	if (nMsgLen == 0)
-	{
-		return L"Unidentified error code";
-	}
-	// copy error string from windows-allocated buffer to std::string
-	std::wstring errorString = pMsgBuf;
-	// free windows buffer
-	LocalFree(pMsgBuf);
-	return errorString;
-}
-Window::HrException::HrException(int line, const wchar_t* file, HRESULT hr) noexcept
-	:
-	Exception(line, file),
-	hr(hr)
-{}
 
-Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
-	:
-	Exception(line, StringConverter::s2ws(string(file)).c_str()),
-	hr(hr)
-{}
-
-const wchar_t* Window::HrException::wWhat() const noexcept
-{
-	std::wstringstream oss;
-	oss << GetType() << std::endl
-		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
-		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
-		<< "[Description] " << GetErrorDescription() << std::endl
-		<< GetOriginString();
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-}
-
-const wchar_t* Window::HrException::GetType() const noexcept
-{
-	return L"Chili Window Exception";
-}
-
-HRESULT Window::HrException::GetErrorCode() const noexcept
-{
-	return hr;
-}
-
-std::wstring Window::HrException::GetErrorDescription() const noexcept
-{
-	return Exception::TranslateErrorCode(hr);
-}
 // Window Class Stuff
 Window::WindowClass Window::WindowClass::wndClass{};
 
@@ -141,28 +82,28 @@ void Window::SetTitle(const std::wstring& title)
 		throw CHWND_LAST_EXCEPT;
 	}
 }
+std::optional<int> Window::ProcessMessage() noexcept
+{
+	MSG msg;
+	// while queue has messages, remove and dispatch them (but do not block on empty queue)
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+	{
+		// check for quit because peekmessage does not signal this via return val
+		if (msg.message == WM_QUIT)
+		{
+			// return optional wrapping int (arg to PostQuitMessage is in wparam) signals quit
+			return (int)msg.wParam;
+		}
 
-//std::optional<int> Window::ProcessMessages() noexcept
-//{
-//	MSG msg;
-//	// while queue has messages, remove and dispatch them (but do not block on empty queue)
-//	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-//	{
-//		// check for quit because peekmessage does not signal this via return val
-//		if (msg.message == WM_QUIT)
-//		{
-//			// return optional wrapping int (arg to PostQuitMessage is in wparam) signals quit
-//			return (int)msg.wParam;
-//		}
-//
-//		// TranslateMessage will post auxilliary WM_CHAR messages from key msgs
-//		TranslateMessage(&msg);
-//		DispatchMessage(&msg);
-//	}
-//
-//	// return empty optional when not quitting app
-//	return {};
-//}
+		// TranslateMessage will post auxilliary WM_CHAR messages from key msgs
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+
+	// return empty optional when not quitting app
+	return {};
+}
+
 
 LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
