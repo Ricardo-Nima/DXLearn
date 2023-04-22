@@ -1,4 +1,4 @@
-#include "Window.h"
+#include "App.h"
 #include "StringConverter.h"
 #include <sstream>
 
@@ -10,30 +10,7 @@ int CALLBACK WinMain(
 {
 	try
 	{
-		Window wnd(640, 480, L"My Window");
-		//Window wnd2(300, 600, L"My Window2");
-
-		//dump message
-		MSG msg;
-		BOOL ret;
-		while ((ret = GetMessage(&msg, nullptr, 0, 0)) > 0)
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-			while (!wnd.mouse.IsEmpty())
-			{
-				const auto e = wnd.mouse.Read();
-				if (!e.has_value()) {
-					break;
-				}
-				const auto& eVal = e.value();
-				if (eVal.GetType() == Mouse::Event::Type::Move) {
-					std::wstringstream oss;
-					oss << L"Mouse Position: (" << eVal.GetPosX() << L", " << eVal.GetPosY() << L") ";
-					wnd.SetTitle(oss.str());
-				}
-			}
-		}
+		return App{}.Go();
 	}
 	catch (const ChiliException& e)
 	{
