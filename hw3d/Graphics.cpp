@@ -1,4 +1,8 @@
 #include "Graphics.h"
+#include "dxerr.h"
+#include <sstream>
+#include "GraphicsThrowMacros.h"
+
 #pragma comment(lib, "d3d11.lib")
 
 Graphics::Graphics(HWND hWnd)
@@ -19,8 +23,9 @@ Graphics::Graphics(HWND hWnd)
 	sd.Windowed = TRUE;
 	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	sd.Flags = 0;
-
-	D3D11CreateDeviceAndSwapChain(
+	HRESULT hr;
+	//Graphics::HrException(__LINE__, __FILE__, hr);
+	GFX_THROW_FAILED(D3D11CreateDeviceAndSwapChain(
 		nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
@@ -33,14 +38,14 @@ Graphics::Graphics(HWND hWnd)
 		&pDevice,
 		nullptr,
 		&pContext
-	);
+	));
 	ID3D11Resource* pBackBuffer = nullptr;
-	pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), reinterpret_cast<void**>(&pBackBuffer));
-	pDevice->CreateRenderTargetView(
+	GFX_THROW_FAILED(pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), reinterpret_cast<void**>(&pBackBuffer)));
+	GFX_THROW_FAILED(pDevice->CreateRenderTargetView(
 		pBackBuffer,
 		nullptr,
 		&pTarget
-	);
+	));
 	pBackBuffer->Release();
 }
 
@@ -66,7 +71,18 @@ Graphics::~Graphics()
 
 void Graphics::EndFrame()
 {
-	pSwapChain->Present(1u, 0u);
+	HRESULT hr;
+	if (FAILED(hr = pSwapChain->Present(1u, 0u)))
+	{
+		if (hr == DXGI_ERROR_DEVICE_REMOVED)
+		{
+			throw GFX_DEVICE_REMOVED_EXCEPT(pDevice->GetDeviceRemovedReason());
+		}
+		else
+		{
+			GFX_THROW_FAILED(hr);
+		}
+	}
 }
 
 void Graphics::ClearBuffer(float red, float green, float blue) noexcept

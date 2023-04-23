@@ -108,6 +108,10 @@ std::optional<int> Window::ProcessMessage() noexcept
 
 Graphics& Window::GetGfx()
 {
+	if (!pGfx)
+	{
+		throw CHWND_NOGFX_EXCEPT();
+	}
 	return *pGfx;
 }
 

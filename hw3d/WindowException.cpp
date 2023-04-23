@@ -61,3 +61,19 @@ std::wstring Window::HrException::GetErrorDescription() const noexcept
 {
 	return Exception::TranslateErrorCode(hr);
 }
+
+
+//NoGfxException
+Window::NoGfxException::NoGfxException(int line, const wchar_t* file) noexcept
+	:
+	Exception(line, file)
+{}
+
+Window::NoGfxException::NoGfxException(int line, const char* file) noexcept
+	:
+	Exception(line, StringConverter::s2ws(string(file)).c_str())
+{}
+const wchar_t* Window::NoGfxException::GetType() const noexcept
+{
+	return L"Chili NoGfxException";
+}
