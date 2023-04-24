@@ -2,16 +2,16 @@
 #include <string>
 #include "ChiliWin.h"
 #include <memory>
-using namespace std;
+
 //Converting a WChar string to a Ansi string
 class StringConverter
 {
 public:
-    static string ws2s(const wstring& inputws)
+    static std::string ws2s(const std::wstring& inputws)
     {
         return WChar2Ansi(inputws.c_str());
     }
-    static std::wstring s2ws(const string& s)
+    static std::wstring s2ws(const std::string& s)
     {
         return Ansi2WChar(s.c_str(), s.size());
     }
@@ -22,7 +22,7 @@ private:
         int nLen = WideCharToMultiByte(CP_ACP, 0, pwszSrc, -1, NULL, 0, NULL, NULL);
         if (nLen <= 0) 
             return std::string("");
-        unique_ptr<char[]> pChar = make_unique<char[]>(nLen);
+        std::unique_ptr<char[]> pChar = std::make_unique<char[]>(nLen);
         if (NULL == pChar) 
             return std::string("");
         WideCharToMultiByte(CP_ACP, 0, pwszSrc, -1, pChar.get(), nLen, NULL, NULL);
@@ -47,7 +47,7 @@ private:
             for (int i = 0; i < nSize; i++)
                 pwszDst[i] = pwszDst[i + 1];
 
-        wstring wcharString(pwszDst);
+        std::wstring wcharString(pwszDst);
         delete[] pwszDst;
 
         return wcharString;

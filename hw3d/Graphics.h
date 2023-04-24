@@ -3,6 +3,9 @@
 #include <vector>
 #include "ChiliWin.h"
 #include "ChiliException.h"
+#include "GraphicsThrowMacros.h"
+#include "DxgiInfoManager.h"
+
 class Graphics
 {
 public:
@@ -50,6 +53,10 @@ public:
 	void EndFrame();
 	void ClearBuffer(float red, float green, float blue) noexcept;
 private:
+#ifndef NDEBUG
+	DxgiInfoManager infoManager;
+#endif // !NDEBUG
+
 	ID3D11Device* pDevice = nullptr;
 	IDXGISwapChain* pSwapChain = nullptr;
 	ID3D11DeviceContext* pContext = nullptr;

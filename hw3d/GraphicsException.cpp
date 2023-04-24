@@ -6,7 +6,7 @@
 // Graphics exception stuff
 Graphics::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::wstring> infoMsgs) noexcept
 	:
-	Exception(line, StringConverter::s2ws(string(file)).c_str()),
+	Exception(line, StringConverter::s2ws(std::string(file)).c_str()),
 	hr(hr)
 {
 	// join all info messages with newlines into single string

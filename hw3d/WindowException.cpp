@@ -31,7 +31,7 @@ Window::HrException::HrException(int line, const wchar_t* file, HRESULT hr) noex
 
 Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
 	:
-	Exception(line, StringConverter::s2ws(string(file)).c_str()),
+	Exception(line, StringConverter::s2ws(std::string(file)).c_str()),
 	hr(hr)
 {}
 
@@ -71,7 +71,7 @@ Window::NoGfxException::NoGfxException(int line, const wchar_t* file) noexcept
 
 Window::NoGfxException::NoGfxException(int line, const char* file) noexcept
 	:
-	Exception(line, StringConverter::s2ws(string(file)).c_str())
+	Exception(line, StringConverter::s2ws(std::string(file)).c_str())
 {}
 const wchar_t* Window::NoGfxException::GetType() const noexcept
 {

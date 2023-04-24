@@ -55,7 +55,7 @@ Window::Window(int width, int height, const wchar_t* name)
 	wr.bottom = height + wr.top;
 	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE) == 0)
 	{
-		throw CHWND_LAST_EXCEPT;
+		throw CHWND_LAST_EXCEPT();
 	}
 	hWnd = CreateWindow(
 		WindowClass::GetName(), name,
@@ -65,11 +65,11 @@ Window::Window(int width, int height, const wchar_t* name)
 	);
 	if (hWnd == nullptr)
 	{
-		throw CHWND_LAST_EXCEPT;
+		throw CHWND_LAST_EXCEPT();
 	}
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
 
-	pGfx = make_unique<Graphics>(hWnd);
+	pGfx = std::make_unique<Graphics>(hWnd);
 }
 
 Window::~Window()
@@ -81,7 +81,7 @@ void Window::SetTitle(const std::wstring& title)
 {
 	if (SetWindowText(hWnd, title.c_str()) == 0)
 	{
-		throw CHWND_LAST_EXCEPT;
+		throw CHWND_LAST_EXCEPT();
 	}
 }
 std::optional<int> Window::ProcessMessage() noexcept

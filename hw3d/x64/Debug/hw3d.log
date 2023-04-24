@@ -1,6 +1,3 @@
-﻿  Graphics.cpp
-C:\Users\jason.liang\Desktop\New Folder\hw3d\ChiliWin.h(5,1): warning C4005: '_WIN32_WINNT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\sdkddkver.h(223): message : see previous definition of '_WIN32_WINNT'
-C:\Users\jason.liang\Desktop\New Folder\hw3d\ChiliWin.h(48,1): warning C4005: 'STRICT': macro redefinition
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\shared\minwindef.h(23): message : see previous definition of 'STRICT'
-  hw3d.vcxproj -> C:\Users\jason.liang\Desktop\New Folder\x64\Debug\hw3d.exe
+﻿  WindowException.cpp
+C:\Users\jason.liang\Desktop\DXLearn\hw3d\StringConverter.h(16,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+  hw3d.vcxproj -> C:\Users\jason.liang\Desktop\DXLearn\x64\Debug\hw3d.exe
